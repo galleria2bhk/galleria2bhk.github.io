@@ -110,6 +110,16 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
 @media (max-width:820px){.hero,.plan,.contact{grid-template-columns:1fr}}
 @media (max-width:480px){.row2{grid-template-columns:1fr}.areas{grid-template-columns:1fr 1fr}.price .amt{font-size:2.3rem}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.q{border:0;margin:0;padding:0;min-width:0;display:grid;gap:8px}
+.q legend{font-size:.88rem;font-weight:600;padding:0;margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{display:block;font-weight:500;font-size:.92rem;position:relative}
+.opts input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.opts span{display:inline-block;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 14px;cursor:pointer}
+.opts input:checked+span{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.opts input:focus-visible+span{outline:3px solid var(--brass);outline-offset:2px}
+.note{background:var(--warn-bg);color:var(--warn-ink);border-radius:10px;padding:10px 14px;font-size:.9rem;margin:0}
+.steps{margin:0;padding-left:20px;display:grid;gap:6px;color:var(--muted);font-size:.95rem}
 </style>
 
 </head>
@@ -137,10 +147,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
         <dt>RERA carpet</dt><dd class="mono">719 sq ft</dd>
         <dt>Rate on SBA</dt><dd class="mono">≈ ₹12,923 / sq ft</dd>
       </dl>
-      <a class="btn btn-wa" id="waTop" href="https://wa.me/919962131678" target="_blank" rel="noopener">
-        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.5.5 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg>
-        WhatsApp the owner
-      </a>
+      <a class="btn btn-wa" href="#enquire">Enquire now</a>
     </aside>
   </section>
 
@@ -198,7 +205,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
     </figure>
   </section>
 
-  <section class="contact" id="contact" aria-labelledby="contactH">
+  <section class="contact" id="enquire" aria-labelledby="contactH">
     <div class="card">
       <div>
         <div class="eyebrow">Contact the owner</div>
@@ -209,41 +216,73 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
         <dt>10:00 – 11:00 AM</dt><dd>Morning</dd>
         <dt>07:00 – 09:00 PM</dt><dd>Evening</dd>
       </dl>
-      <p class="small">All times IST, every day. Outside these hours, leave a WhatsApp message or use the form and you'll get a reply in the next window.</p>
-      <div class="line"><span>WhatsApp</span><a class="val" id="waNum" href="https://wa.me/919962131678" target="_blank" rel="noopener" style="color:var(--wa);font-weight:600">+91 99621 31678</a><button class="copy" data-copy="+919962131678">Copy</button></div>
-      <a class="btn btn-wa" id="waSide" href="https://wa.me/919962131678" target="_blank" rel="noopener">Message on WhatsApp</a>
+      <ol class="steps">
+        <li>Answer a few quick questions.</li>
+        <li>Send them to the owner on WhatsApp with one tap.</li>
+        <li>The owner replies during enquiry hours to arrange a call and a visit.</li>
+      </ol>
+      <p class="small">All times IST. Messages sent outside these hours are answered in the next window.</p>
     </div>
 
     <div class="card">
-      <h3>Send an enquiry</h3>
+      <div>
+        <h3>Before you connect</h3>
+        <p class="small" style="margin-top:6px">To make the best use of everyone's time, please answer a few quick questions. Your answers are included in your WhatsApp message, so the owner can reply with the right details.</p>
+      </div>
       <form id="enq" novalidate>
-        <div class="row2">
-          <label for="fName">Your name<input id="fName" name="name" autocomplete="name" required></label>
-          <label for="fPhone">Phone / WhatsApp<input id="fPhone" name="phone" type="tel" autocomplete="tel" required placeholder="+91"></label>
+        <label for="fName">Your name<input id="fName" name="name" autocomplete="name" required></label>
+        <fieldset class="q"><legend>Who is the purchase for?</legend><div class="opts">
+          <label><input type="radio" name="forWhom" value="Myself"><span>Myself</span></label>
+          <label><input type="radio" name="forWhom" value="My family"><span>My family</span></label>
+          <label><input type="radio" name="forWhom" value="Someone else (on their behalf)"><span>Someone else</span></label>
+        </div></fieldset>
+        <fieldset class="q"><legend>How will the purchase be funded?</legend><div class="opts">
+          <label><input type="radio" name="funding" value="Own funds (ready cash)"><span>Own funds (ready cash)</span></label>
+          <label><input type="radio" name="funding" value="Home loan"><span>Home loan</span></label>
+          <label><input type="radio" name="funding" value="Own funds + home loan"><span>Both</span></label>
+        </div></fieldset>
+        <fieldset class="q" id="qLoan" hidden><legend>Is your home loan pre-approval in place?</legend><div class="opts">
+          <label><input type="radio" name="preapproval" value="Yes, sanctioned"><span>Yes, sanctioned</span></label>
+          <label><input type="radio" name="preapproval" value="In progress"><span>In progress</span></label>
+          <label><input type="radio" name="preapproval" value="Not yet"><span>Not yet</span></label>
         </div>
-        <div class="row2">
-          <label for="fEmail">Email (optional)<input id="fEmail" name="email" type="email" autocomplete="email"></label>
-          <label for="fSlot">Best time to call
-            <select id="fSlot" name="best_time"><option>10–11 AM</option><option>7–9 PM</option></select>
-          </label>
+          <p class="note" id="loanNote" hidden>We recommend getting a pre-approval (in-principle sanction) from your bank before a site visit. It confirms your eligibility and usually takes only a few days, so both sides can move ahead with confidence.</p>
+        </fieldset>
+        <fieldset class="q"><legend>When are you looking to buy?</legend><div class="opts">
+          <label><input type="radio" name="timeline" value="Within 1 month"><span>Within 1 month</span></label>
+          <label><input type="radio" name="timeline" value="1–3 months"><span>1–3 months</span></label>
+          <label><input type="radio" name="timeline" value="3–6 months"><span>3–6 months</span></label>
+          <label><input type="radio" name="timeline" value="Just exploring"><span>Just exploring</span></label>
+        </div></fieldset>
+        <fieldset class="q"><legend>The price is ₹1.45 Cr (fixed). Does this fit your budget?</legend><div class="opts">
+          <label><input type="radio" name="budget" value="Yes, fits my budget"><span>Yes</span></label>
+          <label><input type="radio" name="budget" value="Above my budget"><span>No, it's above my budget</span></label>
         </div>
-        <label for="fMsg">Message<textarea id="fMsg" name="message">Hi, I'm interested in the 14th floor 2 BHK at Alliance Galleria Residences (Atrium B, North facing) listed at ₹1.45 Cr. Please let me know a convenient time to visit.</textarea></label>
-        <button class="btn btn-primary" type="submit" id="sendBtn">Send enquiry</button>
+          <p class="note" id="budgetNote" hidden>Thank you for your interest. As the price is fixed, the owner may not be able to take this further, but you are welcome to send your details.</p>
+        </fieldset>
+        <fieldset class="q"><legend>How familiar are you with the property?</legend><div class="opts">
+          <label><input type="radio" name="familiar" value="Have visited Alliance Galleria"><span>Have visited the project</span></label>
+          <label><input type="radio" name="familiar" value="Know the Pallavaram area"><span>Know the area</span></label>
+          <label><input type="radio" name="familiar" value="New to the area"><span>New to the area</span></label>
+        </div></fieldset>
+        <fieldset class="q"><legend>Best time for a call</legend><div class="opts">
+          <label><input type="radio" name="slot" value="10–11 AM"><span>10–11 AM</span></label>
+          <label><input type="radio" name="slot" value="7–9 PM"><span>7–9 PM</span></label>
+        </div></fieldset>
+        <label for="fMsg">Anything else you'd like to ask? (optional)<textarea id="fMsg" name="message" placeholder="For example: car parking, maintenance, possession date"></textarea></label>
+        <button class="btn btn-wa" type="submit" id="sendBtn">Continue on WhatsApp</button>
         <div id="formMsg" hidden></div>
       </form>
     </div>
   </section>
 
-  <a class="btn btn-wa wa-float" id="waFloat" href="https://wa.me/919962131678" target="_blank" rel="noopener" aria-label="Message the owner on WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.5.5 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg>I'm interested</a>
+  <a class="btn btn-wa wa-float" href="#enquire">Enquire</a>
   <footer>Direct sale by the owner of a resale apartment at Alliance Galleria Residences, Pallavaram, Chennai. Not affiliated with the builder. Plan images are from the builder brochure and are for representation only.</footer>
 </main>
 
 <script>
 (function(){
-  var PHONE="919962131678", EMAIL=atob("YmFzaGFhLnN1bkBnbWFpbC5jb20=");
-  
-  var defaultText="Hi, I am interested in your flat for sale. I have gone through all the details on the website: 2 BHK, 14th floor, Atrium B, North facing, Alliance Galleria Residences, Pallavaram, at ₹1.45 Cr (fixed). Please let me know a convenient time to talk or visit.";
-  ["waTop","waSide","waNum","waFloat"].forEach(function(id){document.getElementById(id).href="https://wa.me/"+PHONE+"?text="+encodeURIComponent(defaultText)});
+  var PHONE=atob("OTE5OTYyMTMxNjc4");
 
   // plan tabs
   var t2=document.getElementById("t2d"),t3=document.getElementById("t3d");
@@ -260,30 +299,38 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
     tx.textContent="Closed now · next window "+next+" IST";}
   upd();setInterval(upd,60000);
 
-  // copy
-  document.querySelectorAll(".copy").forEach(function(b){b.addEventListener("click",function(){
-    var v=b.getAttribute("data-copy");
-    try{navigator.clipboard.writeText(v).then(function(){b.textContent="Copied"},function(){b.textContent=v})}catch(e){b.textContent=v}
-    setTimeout(function(){b.textContent="Copy"},2000);});});
-
-  // form
-  var f=document.getElementById("enq"),out=document.getElementById("formMsg"),btn=document.getElementById("sendBtn");
-  function show(cls,html){out.className="msg "+cls;out.innerHTML=html;out.hidden=false}
-  function esc(s){return s.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  // buyer questions
+  var f=document.getElementById("enq"),out=document.getElementById("formMsg");
+  function val(n){var c=f.querySelector('input[name="'+n+'"]:checked');return c?c.value:""}
+  function show(html){out.className="msg alt";out.innerHTML=html;out.hidden=false}
+  f.addEventListener("change",function(){
+    var fund=val("funding"),loan=fund==="Home loan"||fund==="Own funds + home loan";
+    document.getElementById("qLoan").hidden=!loan;
+    var pa=val("preapproval");document.getElementById("loanNote").hidden=!(loan&&(pa==="In progress"||pa==="Not yet"));
+    document.getElementById("budgetNote").hidden=val("budget")!=="Above my budget";
+  });
   f.addEventListener("submit",function(e){
     e.preventDefault();
-    var g=function(id){return document.getElementById(id).value.trim()};var name=g("fName"),phone=g("fPhone"),email=g("fEmail"),slot=g("fSlot"),msg=g("fMsg");
-    if(!name||!phone){show("alt","Please enter your name and phone number.");return}
-    var text="Enquiry: 14th floor 2BHK, Alliance Galleria (Atrium B)\nName: "+name+"\nPhone: "+phone+(email?"\nEmail: "+email:"")+"\nBest time: "+slot+"\n\n"+msg;
-    var wa="https://wa.me/"+PHONE+"?text="+encodeURIComponent(text);
-    btn.disabled=true;btn.textContent="Sending…";
-    fetch("https://formsubmit.co/ajax/"+EMAIL,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
-      body:JSON.stringify({_subject:"Flat enquiry from "+name+" – Galleria 14th floor 2BHK",_template:"table",_captcha:"false",name:name,phone:phone,email:email||"-",best_time:slot,message:msg})})
-    .then(function(r){return r.json()}).then(function(j){
-      if(j&&(j.success===true||j.success==="true")){show("ok","Thanks, "+esc(name)+". Your enquiry has been emailed to the owner. Expect a reply during 10–11 AM or 7–9 PM IST.");f.reset();}
-      else throw 0;})
-    .catch(function(){show("alt",'Email sending isn\'t available on this page. Please send the same details on WhatsApp instead:<br><a class="btn btn-wa" style="margin-top:10px" href="'+wa+'" target="_blank" rel="noopener">Send on WhatsApp</a>');})
-    .finally(function(){btn.disabled=false;btn.textContent="Send enquiry"});
+    var name=document.getElementById("fName").value.trim(),msg=document.getElementById("fMsg").value.trim();
+    var fund=val("funding"),loan=fund==="Home loan"||fund==="Own funds + home loan";
+    var need=[["forWhom","who the purchase is for"],["funding","how it will be funded"],["timeline","your timeline"],["budget","whether the price fits your budget"],["familiar","how familiar you are with the property"],["slot","the best time for a call"]];
+    if(loan)need.splice(2,0,["preapproval","your loan pre-approval status"]);
+    var miss=need.filter(function(q){return !val(q[0])}).map(function(q){return q[1]});
+    if(!name)miss.unshift("your name");
+    if(miss.length){show("Please answer: "+miss.join(", ")+".");return}
+    out.hidden=true;
+    var lines=["Hello, I am enquiring about the 2 BHK flat for sale at Alliance Galleria Residences (14th floor, Atrium B, North facing, ₹1.45 Cr). I have gone through the details on the website.","",
+      "Name: "+name,"Purchase for: "+val("forWhom"),"Funding: "+fund];
+    if(loan)lines.push("Loan pre-approval: "+val("preapproval"));
+    lines.push("Timeline: "+val("timeline"),"Price ₹1.45 Cr (fixed): "+val("budget"),"Familiarity: "+val("familiar"),"Best time to call: "+val("slot"));
+    if(msg)lines.push("","Question: "+msg);
+    lines.push("","Please let me know a convenient time to talk.");
+    var url="https://api.whatsapp.com/send?phone="+PHONE+"&text="+encodeURIComponent(lines.join("\n"));
+    try{if(localStorage.getItem("g2_owner")!=="1")fetch("https://abacus.jasoncameron.dev/hit/galleria2bhk-site/whatsapp",{keepalive:true}).catch(function(){})}catch(x){}
+    var w=null;try{w=window.open(url,"_blank")}catch(x){}
+    out.className="msg ok";out.hidden=false;
+    out.innerHTML='Thank you. Your answers are ready in WhatsApp; just press Send.<br><a class="btn btn-wa" style="margin-top:10px" target="_blank" rel="noopener">Open WhatsApp again</a>';
+    out.querySelector("a").href=url;
   });
 })();
 </script>
