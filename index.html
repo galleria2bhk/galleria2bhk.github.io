@@ -120,6 +120,10 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
 .opts input:focus-visible+span{outline:3px solid var(--brass);outline-offset:2px}
 .note{background:var(--warn-bg);color:var(--warn-ink);border-radius:10px;padding:10px 14px;font-size:.9rem;margin:0}
 .steps{margin:0;padding-left:20px;display:grid;gap:6px;color:var(--muted);font-size:.95rem}
+.missing{outline:2px solid var(--brass);outline-offset:6px;border-radius:8px}
+.missing > legend,label.missing{color:var(--warn-ink)}
+.agree{display:flex;gap:10px;align-items:flex-start;font-weight:500;font-size:.92rem;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px}
+.agree input{width:auto;margin-top:4px;flex:none}
 </style>
 
 </head>
@@ -136,6 +140,8 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
         <span class="chip"><b>North</b> facing</span>
         <span class="chip"><b>1122</b> sq ft SBA</span>
         <span class="chip"><b>2</b> bath</span>
+        <span class="chip">Possession <b>Nov 2022</b></span>
+        <span class="chip"><b>Covered</b> car parking</span>
       </div>
     </div>
     <aside class="price" aria-label="Price">
@@ -146,6 +152,8 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
         <dt>Super built-up</dt><dd class="mono">1122 sq ft</dd>
         <dt>RERA carpet</dt><dd class="mono">719 sq ft</dd>
         <dt>Rate on SBA</dt><dd class="mono">≈ ₹12,923 / sq ft</dd>
+        <dt>Possession</dt><dd>Nov 2022</dd>
+        <dt>Car parking</dt><dd>Covered</dd>
       </dl>
       <a class="btn btn-wa" href="#enquire">Enquire now</a>
     </aside>
@@ -263,7 +271,8 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
           <label><input type="radio" name="callTime" value="10–11 AM"><span>10–11 AM</span></label>
           <label><input type="radio" name="callTime" value="7–9 PM"><span>7–9 PM</span></label>
         </div></fieldset>
-        <label for="fMsg">Anything else you'd like to ask? (optional)<textarea id="fMsg" name="message" placeholder="For example: car parking, maintenance, possession date"></textarea></label>
+        <label for="fMsg">Anything else you'd like to ask? (optional)<textarea id="fMsg" name="message" placeholder="For example: maintenance charges, documents, interiors"></textarea></label>
+        <label class="agree" for="fAgree"><input id="fAgree" type="checkbox"> <span>I have gone through all the details on this page, including the price of ₹1.45 Cr (fixed), possession since Nov 2022, covered car parking, the floor plan and room sizes, and I am comfortable proceeding.</span></label>
         <button class="btn btn-wa" type="submit" id="sendBtn">Continue on WhatsApp</button>
         <div id="formMsg" hidden></div>
       </form>
@@ -288,7 +297,9 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
   var f=document.getElementById("enq"),out=document.getElementById("formMsg");
   function val(n){var c=f.querySelector('input[name="'+n+'"]:checked');return c?c.value:""}
   function show(html){out.className="msg alt";out.innerHTML=html;out.hidden=false}
-  f.addEventListener("change",function(){
+  function clr(ev){var g=ev.target.closest&&ev.target.closest(".missing");if(g)g.classList.remove("missing")}
+  f.addEventListener("input",clr);
+  f.addEventListener("change",function(ev){clr(ev);
     var fund=val("funding"),loan=fund==="Home loan"||fund==="Own funds + home loan";
     document.getElementById("qLoan").hidden=!loan;
     var pa=val("preapproval");document.getElementById("loanNote").hidden=!(loan&&(pa==="In progress"||pa==="Not yet"));
@@ -300,16 +311,22 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
     var fund=val("funding"),loan=fund==="Home loan"||fund==="Own funds + home loan";
     var need=[["forWhom","who the purchase is for"],["funding","how it will be funded"],["timeline","your timeline"],["budget","whether the price fits your budget"],["familiar","how familiar you are with the property"],["slot","your preferred day for a visit"],["callTime","the best time for a call"]];
     if(loan)need.splice(2,0,["preapproval","your loan pre-approval status"]);
-    var miss=need.filter(function(q){return !val(q[0])}).map(function(q){return q[1]});
-    if(!name)miss.unshift("your name");
-    if(miss.length){show("Please answer: "+miss.join(", ")+".");return}
+    f.querySelectorAll(".missing").forEach(function(el){el.classList.remove("missing")});
+    var bad=[];
+    if(!name)bad.push([document.getElementById("fName").closest("label"),"your name"]);
+    need.forEach(function(q){if(!val(q[0]))bad.push([f.querySelector('input[name="'+q[0]+'"]').closest("fieldset"),q[1]])});
+    var agree=document.getElementById("fAgree");
+    if(!agree.checked)bad.push([agree.closest("label"),"confirm that you have gone through the details"]);
+    if(bad.length){bad.forEach(function(b){b[0].classList.add("missing")});
+      show("Please complete "+(bad.length===1?"this question":"these "+bad.length+" questions")+" before continuing: "+bad.map(function(b){return b[1]}).join(", ")+". They are highlighted above.");
+      bad[0][0].scrollIntoView({behavior:"smooth",block:"center"});var inp=bad[0][0].querySelector("input");if(inp)inp.focus({preventScroll:true});return}
     out.hidden=true;
-    var lines=["Hello, I am enquiring about the 2 BHK flat for sale at Alliance Galleria Residences (14th floor, Atrium B, North facing, ₹1.45 Cr). I have gone through the details on the website.","",
+    var lines=["Hello, I am enquiring about the 2 BHK flat for sale at Alliance Galleria Residences (14th floor, Atrium B, North facing, ₹1.45 Cr).","",
       "Name: "+name,"Purchase for: "+val("forWhom"),"Funding: "+fund];
     if(loan)lines.push("Loan pre-approval: "+val("preapproval"));
     lines.push("Timeline: "+val("timeline"),"Price ₹1.45 Cr (fixed): "+val("budget"),"Familiarity: "+val("familiar"),"Preferred visit day: "+val("slot"),"Best time to call: "+val("callTime"));
     if(msg)lines.push("","Question: "+msg);
-    lines.push("","I look forward to hearing from you about a site visit.");
+    lines.push("","I have gone through all the details on the website and am comfortable proceeding.","","I look forward to hearing from you about a site visit.");
     var url="https://api.whatsapp.com/send?phone="+PHONE+"&text="+encodeURIComponent(lines.join("\n"));
     try{if(localStorage.getItem("g2_owner")!=="1")fetch("https://abacus.jasoncameron.dev/hit/galleria2bhk-site/whatsapp",{keepalive:true}).catch(function(){})}catch(x){}
     var w=null;try{w=window.open(url,"_blank")}catch(x){}
