@@ -151,12 +151,6 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
     </aside>
   </section>
 
-  <div class="notice" role="note">
-    <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 11h-5v-2h3V6h2v7Z"/></svg>
-    <strong>Enquiry hours: 10–11 AM and 7–9 PM (IST)</strong>
-    <span></span>
-    <p>Calls and messages are answered during these hours. Outside them, leave a WhatsApp message and you'll get a reply in the next window.</p>
-  </div>
 
   <section class="plan" aria-labelledby="planH">
     <div>
@@ -209,19 +203,14 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
     <div class="card">
       <div>
         <div class="eyebrow">Contact the owner</div>
-        <h2 id="contactH" style="margin-top:6px">Enquiry hours</h2>
+        <h2 id="contactH" style="margin-top:6px">How it works</h2>
       </div>
-      <div class="status" id="status"><span class="dot"></span><span id="statusText">Checking…</span></div>
-      <dl class="hours">
-        <dt>10:00 – 11:00 AM</dt><dd>Morning</dd>
-        <dt>07:00 – 09:00 PM</dt><dd>Evening</dd>
-      </dl>
       <ol class="steps">
         <li>Answer a few quick questions.</li>
-        <li>Send them to the owner on WhatsApp with one tap.</li>
-        <li>The owner replies during enquiry hours to arrange a call and a visit.</li>
+        <li>Send your answers to the owner on WhatsApp with one tap.</li>
+        <li>The owner reviews your details and replies on WhatsApp to arrange a site visit.</li>
       </ol>
-      <p class="small">All times IST. Messages sent outside these hours are answered in the next window.</p>
+      <p class="small">All enquiries are handled on WhatsApp. Site visits are arranged once your details are received.</p>
     </div>
 
     <div class="card">
@@ -265,9 +254,10 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
           <label><input type="radio" name="familiar" value="Know the Pallavaram area"><span>Know the area</span></label>
           <label><input type="radio" name="familiar" value="New to the area"><span>New to the area</span></label>
         </div></fieldset>
-        <fieldset class="q"><legend>Best time for a call</legend><div class="opts">
-          <label><input type="radio" name="slot" value="10–11 AM"><span>10–11 AM</span></label>
-          <label><input type="radio" name="slot" value="7–9 PM"><span>7–9 PM</span></label>
+        <fieldset class="q"><legend>Preferred day for a site visit</legend><div class="opts">
+          <label><input type="radio" name="slot" value="Weekday"><span>Weekday</span></label>
+          <label><input type="radio" name="slot" value="Weekend"><span>Weekend</span></label>
+          <label><input type="radio" name="slot" value="Either"><span>Either</span></label>
         </div></fieldset>
         <label for="fMsg">Anything else you'd like to ask? (optional)<textarea id="fMsg" name="message" placeholder="For example: car parking, maintenance, possession date"></textarea></label>
         <button class="btn btn-wa" type="submit" id="sendBtn">Continue on WhatsApp</button>
@@ -289,15 +279,6 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
   function sel(full){t2.setAttribute("aria-selected",!full);t3.setAttribute("aria-selected",full);document.getElementById("v2d").hidden=full;document.getElementById("v3d").hidden=!full;}
   t2.onclick=function(){sel(false)};t3.onclick=function(){sel(true)};
 
-  // enquiry window status (IST)
-  function ist(){var n=new Date();return new Date(n.getTime()+(n.getTimezoneOffset()+330)*60000)}
-  function upd(){var d=ist(),m=d.getHours()*60+d.getMinutes(),el=document.getElementById("status"),tx=document.getElementById("statusText");
-    var open=(m>=600&&m<660)||(m>=1140&&m<1260);
-    el.className="status "+(open?"open":"closed");
-    if(open){tx.textContent="Open now · owner available";return}
-    var next=m<600?"10:00 AM today":m<1140?"7:00 PM today":"10:00 AM tomorrow";
-    tx.textContent="Closed now · next window "+next+" IST";}
-  upd();setInterval(upd,60000);
 
   // buyer questions
   var f=document.getElementById("enq"),out=document.getElementById("formMsg");
@@ -313,7 +294,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
     e.preventDefault();
     var name=document.getElementById("fName").value.trim(),msg=document.getElementById("fMsg").value.trim();
     var fund=val("funding"),loan=fund==="Home loan"||fund==="Own funds + home loan";
-    var need=[["forWhom","who the purchase is for"],["funding","how it will be funded"],["timeline","your timeline"],["budget","whether the price fits your budget"],["familiar","how familiar you are with the property"],["slot","the best time for a call"]];
+    var need=[["forWhom","who the purchase is for"],["funding","how it will be funded"],["timeline","your timeline"],["budget","whether the price fits your budget"],["familiar","how familiar you are with the property"],["slot","your preferred day for a visit"]];
     if(loan)need.splice(2,0,["preapproval","your loan pre-approval status"]);
     var miss=need.filter(function(q){return !val(q[0])}).map(function(q){return q[1]});
     if(!name)miss.unshift("your name");
@@ -322,9 +303,9 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
     var lines=["Hello, I am enquiring about the 2 BHK flat for sale at Alliance Galleria Residences (14th floor, Atrium B, North facing, ₹1.45 Cr). I have gone through the details on the website.","",
       "Name: "+name,"Purchase for: "+val("forWhom"),"Funding: "+fund];
     if(loan)lines.push("Loan pre-approval: "+val("preapproval"));
-    lines.push("Timeline: "+val("timeline"),"Price ₹1.45 Cr (fixed): "+val("budget"),"Familiarity: "+val("familiar"),"Best time to call: "+val("slot"));
+    lines.push("Timeline: "+val("timeline"),"Price ₹1.45 Cr (fixed): "+val("budget"),"Familiarity: "+val("familiar"),"Preferred visit day: "+val("slot"));
     if(msg)lines.push("","Question: "+msg);
-    lines.push("","Please let me know a convenient time to talk.");
+    lines.push("","I look forward to hearing from you about a site visit.");
     var url="https://api.whatsapp.com/send?phone="+PHONE+"&text="+encodeURIComponent(lines.join("\n"));
     try{if(localStorage.getItem("g2_owner")!=="1")fetch("https://abacus.jasoncameron.dev/hit/galleria2bhk-site/whatsapp",{keepalive:true}).catch(function(){})}catch(x){}
     var w=null;try{w=window.open(url,"_blank")}catch(x){}
