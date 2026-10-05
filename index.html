@@ -288,5 +288,17 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
 })();
 </script>
 
+<script>
+(function(){
+  var API="https://abacus.jasoncameron.dev/hit/galleria2bhk-site/",own=false;
+  try{own=localStorage.getItem("g2_owner")==="1"}catch(e){}
+  if(own)return;
+  function hit(k){try{fetch(API+k,{keepalive:true}).catch(function(){})}catch(e){}}
+  hit("views");
+  var seen=false;try{seen=localStorage.getItem("g2_seen")==="1";localStorage.setItem("g2_seen","1")}catch(e){}
+  if(!seen)hit("visitors");
+  document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href^="https://wa.me/"]');if(a)hit("whatsapp")});
+})();
+</script>
 </body>
 </html>
