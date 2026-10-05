@@ -331,8 +331,15 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
     try{if(localStorage.getItem("g2_owner")!=="1")fetch("https://abacus.jasoncameron.dev/hit/galleria2bhk-site/whatsapp",{keepalive:true}).catch(function(){})}catch(x){}
     var w=null;try{w=window.open(url,"_blank")}catch(x){}
     out.className="msg ok";out.hidden=false;
-    out.innerHTML='Thank you. Your answers are ready in WhatsApp; just press Send.<br><a class="btn btn-wa" style="margin-top:10px" target="_blank" rel="noopener">Open WhatsApp again</a>';
+    out.innerHTML='Thank you. WhatsApp is open with your answers; just press Send. <span id="mailState">Sending your details by email…</span><br><a class="btn btn-wa" style="margin-top:10px" target="_blank" rel="noopener">Open WhatsApp again</a>';
     out.querySelector("a").href=url;
+    var data={_subject:"Flat enquiry from "+name+" (Galleria 14th floor 2BHK)",_template:"table",_captcha:"false"};
+    lines.forEach(function(l){var i=l.indexOf(": ");if(i>0)data[l.slice(0,i)]=l.slice(i+2)});
+    data["Confirmed"]="Has gone through all the details and is comfortable proceeding";
+    var ms=document.getElementById("mailState");
+    fetch("https://formsubmit.co/ajax/"+atob("YmFzaGFhLnN1bkBnbWFpbC5jb20="),{method:"POST",keepalive:true,headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(data)})
+      .then(function(r){return r.json()}).then(function(j){ms.textContent=(j&&(j.success===true||j.success==="true"))?"Your details have also been emailed to the owner.":""})
+      .catch(function(){ms.textContent=""});
   });
 })();
 </script>
