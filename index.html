@@ -259,6 +259,10 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
           <label><input type="radio" name="slot" value="Weekend"><span>Weekend</span></label>
           <label><input type="radio" name="slot" value="Either"><span>Either</span></label>
         </div></fieldset>
+        <fieldset class="q"><legend>Best time for a call</legend><div class="opts">
+          <label><input type="radio" name="callTime" value="10–11 AM"><span>10–11 AM</span></label>
+          <label><input type="radio" name="callTime" value="7–9 PM"><span>7–9 PM</span></label>
+        </div></fieldset>
         <label for="fMsg">Anything else you'd like to ask? (optional)<textarea id="fMsg" name="message" placeholder="For example: car parking, maintenance, possession date"></textarea></label>
         <button class="btn btn-wa" type="submit" id="sendBtn">Continue on WhatsApp</button>
         <div id="formMsg" hidden></div>
@@ -294,7 +298,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
     e.preventDefault();
     var name=document.getElementById("fName").value.trim(),msg=document.getElementById("fMsg").value.trim();
     var fund=val("funding"),loan=fund==="Home loan"||fund==="Own funds + home loan";
-    var need=[["forWhom","who the purchase is for"],["funding","how it will be funded"],["timeline","your timeline"],["budget","whether the price fits your budget"],["familiar","how familiar you are with the property"],["slot","your preferred day for a visit"]];
+    var need=[["forWhom","who the purchase is for"],["funding","how it will be funded"],["timeline","your timeline"],["budget","whether the price fits your budget"],["familiar","how familiar you are with the property"],["slot","your preferred day for a visit"],["callTime","the best time for a call"]];
     if(loan)need.splice(2,0,["preapproval","your loan pre-approval status"]);
     var miss=need.filter(function(q){return !val(q[0])}).map(function(q){return q[1]});
     if(!name)miss.unshift("your name");
@@ -303,7 +307,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
     var lines=["Hello, I am enquiring about the 2 BHK flat for sale at Alliance Galleria Residences (14th floor, Atrium B, North facing, ₹1.45 Cr). I have gone through the details on the website.","",
       "Name: "+name,"Purchase for: "+val("forWhom"),"Funding: "+fund];
     if(loan)lines.push("Loan pre-approval: "+val("preapproval"));
-    lines.push("Timeline: "+val("timeline"),"Price ₹1.45 Cr (fixed): "+val("budget"),"Familiarity: "+val("familiar"),"Preferred visit day: "+val("slot"));
+    lines.push("Timeline: "+val("timeline"),"Price ₹1.45 Cr (fixed): "+val("budget"),"Familiarity: "+val("familiar"),"Preferred visit day: "+val("slot"),"Best time to call: "+val("callTime"));
     if(msg)lines.push("","Question: "+msg);
     lines.push("","I look forward to hearing from you about a site visit.");
     var url="https://api.whatsapp.com/send?phone="+PHONE+"&text="+encodeURIComponent(lines.join("\n"));
