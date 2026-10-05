@@ -145,10 +145,10 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
   </section>
 
   <div class="notice" role="note">
-    <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2 1 21h22L12 2Zm1 15h-2v-2h2v2Zm0-4h-2V9h2v4Z"/></svg>
-    <strong>Genuine buyers only. No agents or brokers, please.</strong>
+    <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 11h-5v-2h3V6h2v7Z"/></svg>
+    <strong>Enquiry hours: 10–11 AM and 7–9 PM (IST)</strong>
     <span></span>
-    <p>This is a direct owner sale. Calls and messages are answered only between <b>10–11 AM</b> and <b>7–9 PM</b> (IST). Messages from agents or brokers will not get a reply.</p>
+    <p>Calls and messages are answered during these hours. Outside them, leave a WhatsApp message and you'll get a reply in the next window.</p>
   </div>
 
   <section class="plan" aria-labelledby="planH">
@@ -228,7 +228,6 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
           </label>
         </div>
         <label for="fMsg">Message<textarea id="fMsg" name="message">Hi, I'm interested in the 14th floor 2 BHK at Alliance Galleria Residences (Atrium B, North facing) listed at ₹1.45 Cr. Please let me know a convenient time to visit.</textarea></label>
-        <label class="check" for="fBuyer"><input id="fBuyer" type="checkbox" required> I am a genuine buyer, not an agent or broker.</label>
         <button class="btn btn-primary" type="submit" id="sendBtn">Send enquiry</button>
         <div id="formMsg" hidden></div>
       </form>
@@ -243,7 +242,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
 (function(){
   var PHONE="918939308890", EMAIL=atob("YmFzaGFhLnN1bkBnbWFpbC5jb20=");
   
-  var defaultText="Hi, I am interested in your flat for sale. I have gone through all the details on the website: 2 BHK, 14th floor, Atrium B, North facing, Alliance Galleria Residences, Pallavaram, at ₹1.45 Cr (fixed). I am a genuine buyer, not an agent or broker. Please let me know a convenient time to talk or visit.";
+  var defaultText="Hi, I am interested in your flat for sale. I have gone through all the details on the website: 2 BHK, 14th floor, Atrium B, North facing, Alliance Galleria Residences, Pallavaram, at ₹1.45 Cr (fixed). Please let me know a convenient time to talk or visit.";
   ["waTop","waSide","waNum","waFloat"].forEach(function(id){document.getElementById(id).href="https://wa.me/"+PHONE+"?text="+encodeURIComponent(defaultText)});
 
   // plan tabs
@@ -275,12 +274,11 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.82rem;color:
     e.preventDefault();
     var g=function(id){return document.getElementById(id).value.trim()};var name=g("fName"),phone=g("fPhone"),email=g("fEmail"),slot=g("fSlot"),msg=g("fMsg");
     if(!name||!phone){show("alt","Please enter your name and phone number.");return}
-    if(!document.getElementById("fBuyer").checked){show("alt","Please confirm you are a genuine buyer. Agents and brokers are not entertained.");return}
-    var text="Enquiry: 14th floor 2BHK, Alliance Galleria (Atrium B)\nName: "+name+"\nPhone: "+phone+(email?"\nEmail: "+email:"")+"\nBest time: "+slot+"\nConfirmed genuine buyer (not agent)\n\n"+msg;
+    var text="Enquiry: 14th floor 2BHK, Alliance Galleria (Atrium B)\nName: "+name+"\nPhone: "+phone+(email?"\nEmail: "+email:"")+"\nBest time: "+slot+"\n\n"+msg;
     var wa="https://wa.me/"+PHONE+"?text="+encodeURIComponent(text);
     btn.disabled=true;btn.textContent="Sending…";
     fetch("https://formsubmit.co/ajax/"+EMAIL,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
-      body:JSON.stringify({_subject:"Flat enquiry from "+name+" – Galleria 14th floor 2BHK",_template:"table",_captcha:"false",name:name,phone:phone,email:email||"-",best_time:slot,message:msg,confirmed_buyer:"Yes"})})
+      body:JSON.stringify({_subject:"Flat enquiry from "+name+" – Galleria 14th floor 2BHK",_template:"table",_captcha:"false",name:name,phone:phone,email:email||"-",best_time:slot,message:msg})})
     .then(function(r){return r.json()}).then(function(j){
       if(j&&(j.success===true||j.success==="true")){show("ok","Thanks, "+esc(name)+". Your enquiry has been emailed to the owner. Expect a reply during 10–11 AM or 7–9 PM IST.");f.reset();}
       else throw 0;})
